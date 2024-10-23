@@ -1,0 +1,354 @@
+{
+	"info": {
+		"_postman_id": "6e125243-0b6e-4cd6-9206-5a0b79430036",
+		"name": "zaag-backend-scrapper",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21712128"
+	},
+	"item": [
+		{
+			"name": "get user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtZWhlZGkiLCJleHAiOjE3Mjk2OTc4Mzh9.n33eKMNTDpCV5o8DiE03j4AyvGrGpI7sr06Qa2uZzk8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/users/me",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_samples",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtZWhlZGkiLCJleHAiOjE3Mjk2OTc4Mzh9.n33eKMNTDpCV5o8DiE03j4AyvGrGpI7sr06Qa2uZzk8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/samples/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"samples",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_sample",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtZWhlZGkiLCJleHAiOjE3Mjk2OTc4Mzh9.n33eKMNTDpCV5o8DiE03j4AyvGrGpI7sr06Qa2uZzk8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/samples/3141",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"samples",
+						"3141"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_sample",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtZWhlZGkiLCJleHAiOjE3Mjk2OTc4Mzh9.n33eKMNTDpCV5o8DiE03j4AyvGrGpI7sr06Qa2uZzk8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"string\",\n  \"tax_id\": \"string\",\n  \"gtdb_id\": \"string\",\n  \"domain\": \"string\",\n  \"abundance_score\": 0,\n  \"relative_abundance\": 0,\n  \"unique_matches\": 0,\n  \"total_matches\": 0,\n  \"unique_matches_frequency\": 0,\n  \"reads_frequency\": 0,\n  \"normalized_reads_frequency\": 0,\n  \"go_id\": \"string\",\n  \"go_category\": \"string\",\n  \"go_description\": \"string\",\n  \"copies_per_million\": 0,\n  \"enzyme_id\": \"string\",\n  \"pfam_id\": \"string\",\n  \"cazy_id\": \"string\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/samples/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"samples",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_sample",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtZWhlZGkiLCJleHAiOjE3Mjk2OTc4Mzh9.n33eKMNTDpCV5o8DiE03j4AyvGrGpI7sr06Qa2uZzk8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Mehedi\",\n    \"tax_id\": \"string\",\n    \"gtdb_id\": \"string\",\n    \"domain\": \"string\",\n    \"abundance_score\": null,\n    \"relative_abundance\": 0.0,\n    \"unique_matches\": 0.0,\n    \"total_matches\": 0.0,\n    \"unique_matches_frequency\": 0.0,\n    \"reads_frequency\": 0,\n    \"normalized_reads_frequency\": 0,\n    \"go_id\": \"string\",\n    \"go_category\": \"string\",\n    \"go_description\": \"string\",\n    \"copies_per_million\": 0.0,\n    \"enzyme_id\": \"string\",\n    \"pfam_id\": \"string\",\n    \"cazy_id\": \"string\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/samples/3140",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"samples",
+						"3140"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete sample",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtZWhlZGkiLCJleHAiOjE3Mjk2OTc4Mzh9.n33eKMNTDpCV5o8DiE03j4AyvGrGpI7sr06Qa2uZzk8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/samples/3140",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"samples",
+						"3140"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"mehedi\",\n  \"password\": \"string\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/token",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"mehedi\",\n  \"password\": \"string\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/users/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
