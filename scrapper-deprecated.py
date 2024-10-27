@@ -1,6 +1,5 @@
 import os
 import time
-from multiprocessing import Pool
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -18,19 +17,6 @@ def login():
 
     login_button = driver.find_element(By.XPATH, "//button[@type='submit']")
     login_button.click()
-    user = driver.execute_script("return localStorage.getItem('user');")
-    return user
-
-
-def extract_trs(driver):
-    tbody = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.TAG_NAME, "tbody"))
-    )
-    trs = WebDriverWait(tbody, 10).until(
-        EC.presence_of_all_elements_located((By.TAG_NAME, "tr"))
-    )
-
-    return trs
 
 
 def extract_urls(trs):
@@ -42,6 +28,61 @@ def extract_urls(trs):
         url = a.get_attribute("href")
         urls.append(url)
     return urls
+
+
+def download_files(driver, urls):
+    for url in urls:
+        driver.get(url)
+
+        result_dropdown_box = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//*[@id='analysis-select' or @id='analysis select-lable']")
+            )
+        )
+        time.sleep(3)
+        result_dropdown_box.click()
+        dropdown_options = WebDriverWait(driver, 10).until(
+            EC.presence_of_all_elements_located((By.XPATH, "//li[@data-value]"))
+        )
+
+        total_options = len(dropdown_options)
+        for i in range(0, total_options - 1):
+            print(i)
+            dropdown_options[i].click()
+            if dropdown_options[i].text == "Bacteria":
+                process_bacteria_data(driver)
+
+            try:
+                export_button = WebDriverWait(driver, 3).until(
+                    EC.element_to_be_clickable(
+                        (
+                            By.XPATH,
+                            "//button[contains(text(), 'Export current results')]",
+                        )
+                    )
+                )
+                export_button.click()
+            except Exception as e:
+                print("No export button")  # empty table
+                pass
+
+            time.sleep(1)
+
+            result_dropdown_box = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located(
+                    (
+                        By.XPATH,
+                        "//*[@id='analysis-select' or @id='analysis select-lable']",
+                    )
+                )
+            )
+            time.sleep(1)
+            result_dropdown_box.click()
+
+            dropdown_options = WebDriverWait(driver, 10).until(
+                EC.presence_of_all_elements_located((By.XPATH, "//li[@data-value]"))
+            )
+            time.sleep(1)
 
 
 def process_bacteria_data(driver):
@@ -86,74 +127,6 @@ def process_bacteria_data(driver):
             pass
 
 
-def download_file(url):
-
-    driver = webdriver.Chrome(options=chrome_options)
-    driver.get(url)
-    # adding user token to avoid login
-    driver.execute_script(f"window.localStorage.setItem('user', '{user}');")
-    driver.get(url)
-
-    try:
-        close_button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable(
-                (By.ID, "intro-tour--functional-2-tour--close-button")
-            )
-        )
-        close_button.click()
-    except:
-        pass
-    result_dropdown_box = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located(
-            (By.XPATH, "//*[@id='analysis-select' or @id='analysis select-lable']")
-        )
-    )
-    time.sleep(1)
-    result_dropdown_box.click()
-
-    total_options = len(
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_all_elements_located((By.XPATH, "//li[@data-value]"))
-        )
-    )
-    print(total_options)
-
-    for i in range(0, total_options - 1):
-
-        try:
-
-            dropdown_options = WebDriverWait(driver, 10).until(
-                EC.presence_of_all_elements_located((By.XPATH, "//li[@data-value]"))
-            )
-            dropdown_options[i].click()
-            if dropdown_options[i].text == "Bacteria":
-                process_bacteria_data(driver)
-            export_button = WebDriverWait(driver, 3).until(
-                EC.element_to_be_clickable(
-                    (
-                        By.XPATH,
-                        "//button[contains(text(), 'Export current results')]",
-                    )
-                )
-            )
-            export_button.click()
-        except Exception as e:
-            print("No export button")  # empty table
-            pass
-        time.sleep(1)
-        result_dropdown_box = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located(
-                (
-                    By.XPATH,
-                    "//*[@id='analysis-select' or @id='analysis select-lable']",
-                )
-            )
-        )
-
-        time.sleep(1)
-        result_dropdown_box.click()
-
-
 if __name__ == "__main__":
 
     download_dir = os.path.abspath("./files")
@@ -174,16 +147,15 @@ if __name__ == "__main__":
     close_button = driver.find_element(By.XPATH, "//button[@aria-label='close']")
     close_button.click()
 
-    user = login()
+    login()
 
     for _ in range(4):
         driver.execute_script("window.open('https://app.cosmosid.com/search')")
 
+    # Get all window handles
     window_handles = driver.window_handles
-    all_targeted_links = []
     for i in range(0, len(window_handles)):
         driver.switch_to.window(window_handles[i])
-
         try:
             close_button = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable(
@@ -194,23 +166,20 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"Could not close button on tab {i}: {e}")
             pass
-        time.sleep(2)
 
-        trs = extract_trs(driver)
+        tbody = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, "tbody"))
+        )
+        trs = tbody.find_elements(By.TAG_NAME, "tr")
         no_of_rows = len(trs)
         tds = trs[no_of_rows - (i + 1)].find_elements(By.TAG_NAME, "td")
-        time.sleep(1)
         a = tds[1].find_element(By.TAG_NAME, "a")
         name = tds[1].text
         a.click()
-        time.sleep(3)
-        trs = extract_trs(driver)
+        tbody = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, "tbody"))
+        )
+        time.sleep(2)
+        trs = tbody.find_elements(By.TAG_NAME, "tr")
         urls = extract_urls(trs)
-        all_targeted_links.extend(urls)
-        driver.close()
-    print(len(all_targeted_links))
-
-    # process url in parallel
-
-    with Pool(processes=os.cpu_count()) as pool:
-        pool.map(download_file, all_targeted_links)
+        download_files(driver, urls)
