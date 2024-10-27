@@ -8,7 +8,6 @@ from schemas import UserCreate
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-# Configure test database
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"  # Using SQLite for testing
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
@@ -50,10 +49,8 @@ async def test_create_user(async_client, test_user):
 
 @pytest.mark.asyncio
 async def test_login_for_access_token(async_client, test_user):
-    # Create the user first for login
     await async_client.post("/users/", json=test_user.dict())
 
-    # Attempt login
     login_data = {"username": test_user.username, "password": test_user.password}
     response = await async_client.post("/token", json=login_data)
     assert response.status_code == status.HTTP_200_OK
@@ -93,7 +90,7 @@ async def test_create_sample(async_client, test_user):
         "copies_per_million": 5.0,
         "enzyme_id": "ENZ123",
         "pfam_id": "PF12345",
-        "cazy_id": "CAZ123"
+        "cazy_id": "CAZ123",
     }
     response = await async_client.post("/samples/", json=sample_data, headers=headers)
     assert response.status_code == status.HTTP_200_OK
@@ -114,7 +111,7 @@ async def test_read_samples(async_client, test_user):
 async def test_read_sample(async_client, test_user):
     token = await test_login_for_access_token(async_client, test_user)
     headers = {"Authorization": f"Bearer {token}"}
-    sample_id = 1  # Adjust sample_id based on created sample
+    sample_id = 1
 
     response = await async_client.get(f"/samples/{sample_id}", headers=headers)
     assert response.status_code == status.HTTP_200_OK
