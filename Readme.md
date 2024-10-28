@@ -1,4 +1,8 @@
 # Web Scrapper and Backend App
+- Checkout to the refactor_and_optimization branch
+```
+git checkout refactor_and_optimization
+```
 
 ## Setting Up a Virtual Environment
 
